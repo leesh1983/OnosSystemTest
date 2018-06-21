@@ -6,9 +6,9 @@
         CASE4: SONA Application Failure Test
         <testcases>1,2,3,4</testcases>
    -->
-    <testcases>1</testcases>
+    <testcases>1,2,3,4</testcases>
 
-    <repeat>3</repeat>
+    <repeat>1</repeat>
     <Rally>
         <adminOpenrc>source admin-openrc.sh</adminOpenrc>
         <deploymentCreate>rally deployment create --fromenv --name sona-test</deploymentCreate>

@@ -25,33 +25,13 @@
             </COMPONENTS>
         </ONOScell>
 
-        <Mininet1>
-            <host>OCN</host>
-            <user>sdn</user>
-            <password>rocks</password>
-            <type>MininetCliDriver</type>
-            <connect_order>2</connect_order>
-            <COMPONENTS>
-                #Specify the Option for mininet
-                <arg1> --custom ~/mininet/custom/obelisk.py </arg1>
-                <arg2> --topo obelisk </arg2>
-                <arg3> --switch ovs,protocols=OpenFlow13 </arg3>
-                <controller> none </controller>
-                <home>~/mininet/custom/</home>
-                <prompt></prompt>
-            </COMPONENTS>
-        </Mininet1>
-
-	    <Tempest>
-	        <host>OCT</host>
-	        <user>stack</user>
-	        <password>telcowr1</password>
-                <type>TempestCliDriver</type>
-   	        <connect_order>3</connect_order>
-	        <COMPONENTS>
-                <arg1>rally verify start --pattern tempest.api.network --detail</arg1>
-            </COMPONENTS>
-	    </Tempest>
+	<Tempest>
+	    <host>OCT</host>
+	    <user>root</user>
+	    <password>root</password>
+            <type>TempestCliDriver</type>
+   	    <connect_order>3</connect_order>
+	</Tempest>
 
     </COMPONENT>
 </TOPOLOGY>
