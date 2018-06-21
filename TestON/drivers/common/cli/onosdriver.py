@@ -1107,6 +1107,8 @@ class OnosDriver( CLI ):
             self.handle.expect( self.prompt )
             self.handle.sendline( "onos-service " + str( nodeIp ) +
                                   " start" )
+            main.log.info( "ONOS instance " + str( nodeIp ) +
+                           " onos-service start" )
             i = self.handle.expect( [
                 "Job\sis\salready\srunning",
                 "start/running",
@@ -2639,6 +2641,34 @@ class OnosDriver( CLI ):
         except TypeError:
             main.log.exception( self.name + ": Object not as expected" )
             return main.FALSE
+        except pexpect.EOF:
+            main.log.error( self.name + ": EOF exception found" )
+            main.log.error( self.name + ":    " + self.handle.before )
+            main.cleanAndExit()
+        except Exception:
+            main.log.exception( self.name + ": Uncaught exception!" )
+            main.cleanAndExit()
+
+    def setOnosNetCfg( self, hostIp, cfgFile ):
+        """
+        Calls onos command: 'onos-service [<node-ip>] status'
+        """
+        try:
+            cmd = "curl --user onos:rocks -X POST -H \"Content-Type: application/json\" http://" + hostIp + ":8181/onos/openstacknode/configure -d @" + cfgFile
+
+            self.handle.sendline( "" )
+            self.handle.expect( self.prompt )
+            self.handle.sendline( cmd )
+            i = self.handle.expect( [
+                self.prompt,
+                pexpect.TIMEOUT ], timeout=120 )
+            self.handle.sendline( "" )
+            self.handle.expect( self.prompt )
+
+            if i == 0 :
+                return main.TRUE
+            else :
+                main.cleanAndExit()
         except pexpect.EOF:
             main.log.error( self.name + ": EOF exception found" )
             main.log.error( self.name + ":    " + self.handle.before )

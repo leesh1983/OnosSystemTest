@@ -1,0 +1,31 @@
+<PARAMS>
+    <!--
+        CASE1: setup and clean test env
+        CASE2: Tempest basic Test
+        CASE3: ONOS Failure Test
+        CASE4: SONA Application Failure Test
+        <testcases>1,2,3,4</testcases>
+   -->
+    <testcases>1</testcases>
+
+    <repeat>3</repeat>
+    <Rally>
+        <adminOpenrc>source admin-openrc.sh</adminOpenrc>
+        <deploymentCreate>rally deployment create --fromenv --name sona-test</deploymentCreate>
+        <createVerifier>rally verify create-verifier --type tempest --name tempest-verifier --source https://github.com/sonaproject/tempest</createVerifier>
+        <configureVerifier>rally verify configure-verifier --extend sona-tempest.conf</configureVerifier>
+        <basicTest>rally verify start --pattern tempest.api.network --detail</basicTest>
+        <ONOSRestIntfAddr>10.10.5.221</ONOSRestIntfAddr>
+    </Rally>
+    <ENV>
+        <cellName>SONA</cellName>
+        <appString>drivers,openflow-base,openstacknetworking</appString>
+    </ENV>
+    <tcpdump> False </tcpdump>
+    <apps>
+        org.onosproject.openstacknode,org.onosproject.ovsdb-base,org.onosproject.openstacknetworking
+    </apps>
+    <networkCfg>
+        <name>network-cfg.json.kuryr</name>
+    </networkCfg>
+</PARAMS>

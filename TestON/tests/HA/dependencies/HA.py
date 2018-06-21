@@ -330,30 +330,30 @@ class HA():
         else:
             main.log.warn( "No apps were specified to be loaded after startup" )
 
-        main.step( "Set ONOS configurations" )
-        # FIXME: This shoudl be part of the general startup sequence
-        config = main.params.get( 'ONOS_Configuration' )
-        if config:
-            main.log.debug( config )
-            checkResult = main.TRUE
-            for component in config:
-                for setting in config[ component ]:
-                    value = config[ component ][ setting ]
-                    check = main.Cluster.next().setCfg( component, setting, value )
-                    main.log.info( "Value was changed? {}".format( main.TRUE == check ) )
-                    checkResult = check and checkResult
-            utilities.assert_equals( expect=main.TRUE,
-                                     actual=checkResult,
-                                     onpass="Successfully set config",
-                                     onfail="Failed to set config" )
-        else:
-            main.log.warn( "No configurations were specified to be changed after startup" )
-
-        main.step( "Check app ids" )
-        appCheck = self.appCheck()
-        utilities.assert_equals( expect=True, actual=appCheck,
-                                 onpass="App Ids seem to be correct",
-                                 onfail="Something is wrong with app Ids" )
+        # main.step( "Set ONOS configurations" )
+        # # FIXME: This shoudl be part of the general startup sequence
+        # config = main.params.get( 'ONOS_Configuration' )
+        # if config:
+        #     main.log.debug( config )
+        #     checkResult = main.TRUE
+        #     for component in config:
+        #         for setting in config[ component ]:
+        #             value = config[ component ][ setting ]
+        #             check = main.Cluster.next().setCfg( component, setting, value )
+        #             main.log.info( "Value was changed? {}".format( main.TRUE == check ) )
+        #             checkResult = check and checkResult
+        #     utilities.assert_equals( expect=main.TRUE,
+        #                              actual=checkResult,
+        #                              onpass="Successfully set config",
+        #                              onfail="Failed to set config" )
+        # else:
+        #     main.log.warn( "No configurations were specified to be changed after startup" )
+        # 
+        # main.step( "Check app ids" )
+        # appCheck = self.appCheck()
+        # utilities.assert_equals( expect=True, actual=appCheck,
+        #                          onpass="App Ids seem to be correct",
+        #                          onfail="Something is wrong with app Ids" )
 
     def commonChecks( self ):
         # TODO: make this assertable or assert in here?

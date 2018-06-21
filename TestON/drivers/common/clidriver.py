@@ -80,6 +80,7 @@ class CLI( Component ):
         self.handle.setwinsize( 24, 250 )
 
         self.handle.logfile = self.logfile_handler
+        self.myprompt = '\#|\$'
         i = 5
         while i == 5:
             i = self.handle.expect( [ ssh_newkey,
@@ -109,7 +110,7 @@ class CLI( Component ):
                 j = self.handle.expect( [
                                         'password:|Password:',
                                         'Permission denied, please try again.',
-                                        self.prompt,
+                                        self.myprompt,
                                         pexpect.EOF,
                                         pexpect.TIMEOUT ],
                                         120 )
@@ -139,9 +140,9 @@ class CLI( Component ):
                 main.log.info( "Password not required logged in" )
 
         self.handle.sendline( "" )
-        self.handle.expect( self.prompt )
+        self.handle.expect( self.myprompt )
         self.handle.sendline( "cd" )
-        self.handle.expect( self.prompt )
+        self.handle.expect( self.myprompt )
         return self.handle
 
     def disconnect( self ):
