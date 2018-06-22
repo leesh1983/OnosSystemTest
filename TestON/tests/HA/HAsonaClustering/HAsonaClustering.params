@@ -27,6 +27,6 @@
         org.onosproject.openstacknode,org.onosproject.ovsdb-base,org.onosproject.openstacknetworking
     </apps>
     <networkCfg>
-        <name>network-cfg.json.kuryr</name>
+        <path>/home/sdn/network-cfg.json</path>
     </networkCfg>
 </PARAMS>

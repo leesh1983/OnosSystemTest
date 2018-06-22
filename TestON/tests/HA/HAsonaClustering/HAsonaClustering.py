@@ -36,7 +36,7 @@ class HAsonaClustering:
         main.testSetUp.ONOSSetUp( main.Cluster, cellName=cellName, removeLog=True, skipPack=True,
                                   extraApply=None )
         main.HA.initialSetUp()
-        main.ONOSbench.setOnosNetCfg(hostIp=main.Cluster.next().ipAddress, cfgFile=main.params[ 'networkCfg' ].get( 'name' ))
+        main.ONOSbench.setOnosNetCfg(hostIp=main.Cluster.next().ipAddress, cfgFile=main.params[ 'networkCfg' ].get( 'path' ))
 
         main.step( 'Set logging levels' )
         logging = True
