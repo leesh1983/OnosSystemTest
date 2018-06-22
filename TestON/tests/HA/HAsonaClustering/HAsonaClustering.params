@@ -13,8 +13,9 @@
         <adminOpenrc>source admin-openrc.sh</adminOpenrc>
         <deploymentCreate>rally deployment create --fromenv --name sona-test</deploymentCreate>
         <createVerifier>rally verify create-verifier --type tempest --name tempest-verifier --source https://github.com/sonaproject/tempest</createVerifier>
-        <configureVerifier>rally verify configure-verifier --extend sona-tempest.conf</configureVerifier>
-        <basicTest>rally verify start --pattern tempest.api.network --detail</basicTest>
+        <configureVerifier>rally verify configure-verifier --reconfigure --extend sona-tempest.conf</configureVerifier>
+        <basicTest>rally verify start --pattern TestNetworkBasicOps --skip-list sona-skip-list.yaml --detail</basicTest>
+        <networkTest>rally verify start --pattern network --skip-list sona-skip-list.yaml --detail</networkTest>
         <ONOSRestIntfAddr>10.10.5.221</ONOSRestIntfAddr>
     </Rally>
     <ENV>

@@ -61,7 +61,7 @@ class HAsonaClustering:
         main.Tempest.tempestConfInit()
 
         main.step( "Basic test" )
-        stepResult = main.Tempest.tempestBasicTest()
+        stepResult = main.Tempest.tempestTest("basicTest")
         utilities.assert_equals( expect=main.TRUE, actual=stepResult,
                                  onpass="Successfully basic test",
                                  onfail="Failed basic test" )
@@ -87,14 +87,14 @@ class HAsonaClustering:
             killResult = main.ONOSbench.onosDie( ctrl.ipAddress )
             main.log.info("onos Die " + ctrl.name)
 
-            stepResult = main.Tempest.tempestBasicTest()
+            stepResult = main.Tempest.tempestTest("networkTest")
             if killResult != main.TRUE or stepResult != main.TRUE:
                 caseResult = False;
 
         main.step( "ONOS ReStart test" )
         for ctrl in main.Cluster.runningNodes:
             startResult = main.ONOSbench.onosStart( ctrl.ipAddress )
-            stepResult = main.Tempest.tempestBasicTest()
+            stepResult = main.Tempest.tempestTest("networkTest")
             if startResult != main.TRUE or stepResult != main.TRUE:
                 caseResult = False;
 
@@ -117,11 +117,11 @@ class HAsonaClustering:
         main.step( "SONA App Down test" )
         for ctrl in main.Cluster.runningNodes:
             downResult = ctrl.CLI.app( "org.onosproject.openstacknetworking", "deactivate" )
-            stepResult = main.Tempest.tempestBasicTest()
+            stepResult = main.Tempest.tempestTest("networkTest")
             if downResult != main.TRUE or stepResult != main.TRUE:
                 caseResult = False;
             upResult = ctrl.CLI.app( "org.onosproject.openstacknetworking", "activate" )
-            stepResult = main.Tempest.tempestBasicTest()
+            stepResult = main.Tempest.tempestTest("networkTest")
             if upResult != main.TRUE or stepResult != main.TRUE:
                 caseResult = False;
 
