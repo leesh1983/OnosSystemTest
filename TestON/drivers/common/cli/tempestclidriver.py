@@ -190,80 +190,9 @@ class TempestCliDriver( CLI ):
             main.log.error( self.name + ":    " + self.handle.before )
             main.cleanAndExit()
 
-    def tempestBasicTest( self ):
-
-        timeout=300
-        try:
-            if self.handle:
-                self.handle.sendline( "cd" )
-                isBashPrompt = False
-                promptType = self.handle.expect( [self.bashPrompt, self.hostPrompt] )
-                if promptType == 0 :
-                    isBashPrompt = True
-
-                promptIndex = -1
-                cmd = main.params[ 'Rally' ].get( 'basicTest' )
-                main.log.info( "Rally command: " + cmd +"\nPlease wait a moment.")
-                self.handle.sendline( cmd )
-                i = self.handle.expect( [ 'password\sfor\s',
-                                          self.myPrompt,
-                                          pexpect.EOF,
-                                          pexpect.TIMEOUT ],
-                                        timeout )
-                if i == 0:
-                    # Sudo asking for password
-                    main.log.info( self.name + ": Sending sudo password" )
-                    self.handle.sendline( self.pwd )
-                    i = self.handle.expect( [ '%s:' % self.user_name,
-                                              self.prompt,
-                                              pexpect.EOF,
-                                              pexpect.TIMEOUT ],
-                                            timeout )
-
-                resultFullStr = str( self.handle.before )
-                if i == 1:
-                    index = resultFullStr.rfind("Totals\r\n======")
-                    if isBashPrompt:
-                        promptIndex = resultFullStr.rfind("(rally)")
-                    else:
-                        promptIndex = resultFullStr.rfind(self.user_name + "@")
-                    if index != -1 :
-                        if promptIndex != -1 :
-                            resultStr = resultFullStr[index+14:promptIndex]
-                        else :
-                            resultStr = resultFullStr[index+14:]
-                        main.log.info( "Basic test result\n" + resultStr)
-
-                    if 'Failures: 0' in resultStr :
-                        return main.TRUE
-
-                main.log.error( "Basic test failed (expect index:" + str(i) +")" )
-                if promptIndex != -1:
-                    main.log.warn( resultFullStr[:promptIndex] )
-                else :
-                    main.log.warn( resultFullStr )
-                return main.FALSE
-            else:  # if no handle
-                main.log.error( self.name + ": Connection failed to the host " +
-                                self.user_name + "@" + self.ip_address )
-                main.log.error( self.name + ": Failed to connect to TempestHost" )
-                return main.FALSE
-        except pexpect.TIMEOUT:
-            main.log.exception( self.name + ": TIMEOUT exception found" )
-            main.log.error( self.name + ":    " + self.handle.before )
-            return main.FALSE
-        except pexpect.EOF:
-            main.log.error( self.name + ": EOF exception found" )
-            main.log.error( self.name + ":    " + self.handle.before )
-            main.cleanAndExit()
-        except Exception:
-            main.log.exception( self.name + ": Uncaught exception!" )
-            main.log.error( self.name + ":    " + self.handle.before )
-            main.cleanAndExit()
-
     def tempestTest( self, testType ):
 
-        timeout = 600
+        timeout = 1200
         try:
             if self.handle:
                 self.handle.sendline( "cd" )
@@ -292,6 +221,7 @@ class TempestCliDriver( CLI ):
                                             timeout )
 
                 resultFullStr = str( self.handle.before )
+
                 if i == 1:
                     index = resultFullStr.rfind("Totals\r\n======")
                     if isBashPrompt:
@@ -308,7 +238,7 @@ class TempestCliDriver( CLI ):
                     if 'Failures: 0' in resultStr :
                         return main.TRUE
 
-                main.log.error( testType + "failed (expect index:" + str(i) +")" )
+                main.log.error( testType + " failed" )
                 if promptIndex != -1:
                     main.log.warn( resultFullStr[:promptIndex] )
                 else :

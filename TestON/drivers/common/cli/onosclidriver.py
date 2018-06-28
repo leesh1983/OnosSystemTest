@@ -6604,3 +6604,47 @@ class OnosCliDriver( CLI ):
         except Exception:
             main.log.exception( self.name + ": Uncaught exception!" )
             main.cleanAndExit()
+
+    def openstackSyncRules( self ):
+        try:
+            cmdStr = "openstack-sync-rules"
+            self.handle.sendline( cmdStr )
+            self.handle.expect( "onos>" )
+
+            response = self.handle.before
+            if re.search( "Error", response ):
+                main.log.error( self.name + ":    " + self.handle.before )
+                return main.FALSE
+            return main.TRUE
+        except pexpect.TIMEOUT:
+            main.log.exception( self.name + ": TIMEOUT exception found" )
+            main.cleanAndExit()
+        except pexpect.EOF:
+            main.log.error( self.name + ": EOF exception found" )
+            main.log.error( self.name + ":    " + self.handle.before )
+            main.cleanAndExit()
+        except Exception:
+            main.log.exception( self.name + ": Uncaught exception!" )
+            main.cleanAndExit()
+
+    def openstackSyncStates( self ):
+        try:
+            cmdStr = "openstack-sync-states"
+            self.handle.sendline( cmdStr )
+            self.handle.expect( "onos>" )
+
+            response = self.handle.before
+            if re.search( "Error", response ):
+                main.log.error( self.name + ":    " + self.handle.before )
+                return main.FALSE
+            return main.TRUE
+        except pexpect.TIMEOUT:
+            main.log.exception( self.name + ": TIMEOUT exception found" )
+            main.cleanAndExit()
+        except pexpect.EOF:
+            main.log.error( self.name + ": EOF exception found" )
+            main.log.error( self.name + ":    " + self.handle.before )
+            main.cleanAndExit()
+        except Exception:
+            main.log.exception( self.name + ": Uncaught exception!" )
+            main.cleanAndExit()

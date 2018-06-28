@@ -2650,9 +2650,6 @@ class OnosDriver( CLI ):
             main.cleanAndExit()
 
     def setOnosNetCfg( self, hostIp, cfgFile ):
-        """
-        Calls onos command: 'onos-service [<node-ip>] status'
-        """
         try:
             cmd = "curl --user onos:rocks -X POST -H \"Content-Type: application/json\" http://" + hostIp + ":8181/onos/openstacknode/configure -d @" + cfgFile
 

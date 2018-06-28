@@ -1,5 +1,4 @@
-
-class HAsonaClustering:
+class HAsonaRecovery:
 
     def __init__( self ):
         self.default = ''
@@ -55,38 +54,25 @@ class HAsonaClustering:
                                  onpass="Set log levels",
                                  onfail="Failed to set log levels" )
 
-    def CASE2( self, main ):
+    def CASE2( self, main):
+        import time
         """
-            Tempest basic Test
+            ONOS Recovery Test
         """
-        main.case( "Tempest basic test" )
-        main.step( "Tempest configure" )
-        main.Tempest.tempestConfInit()
-
-        main.step( "Basic test" )
-        stepResult = main.Tempest.tempestTest("basicTest")
-        utilities.assert_equals( expect=main.TRUE, actual=stepResult,
-                                 onpass="Successfully basic test",
-                                 onfail="Failed basic test" )
-
-    def CASE3( self, main):
-        """
-            ONOS Failure Test
-        """
-        main.case( "ONOS Failure test" )
+        main.case( "ONOS Recovery test" )
 
         main.step( "Tempest configure" )
         main.Tempest.tempestConfInit()
 
         caseResult = True;
-        main.step( "ONOS Down test" )
+
         for ctrl in main.Cluster.runningNodes:
             try :
                 if str(ctrl.ipAddress) == main.params[ 'Rally' ].get( 'ONOSRestIntfAddr' ) :
                     continue
             except Exception:
                 pass
-
+            main.step( "ONOS " + ctrl.name + " Down" )
             killResult = main.ONOSbench.onosDie( ctrl.ipAddress )
             main.log.info("onos Die " + ctrl.name)
 
@@ -94,41 +80,13 @@ class HAsonaClustering:
             if killResult != main.TRUE or stepResult != main.TRUE:
                 caseResult = False;
 
-        main.step( "ONOS ReStart test" )
-        for ctrl in main.Cluster.runningNodes:
+            main.step( "ONOS " + ctrl.name + " ReStart" )
             startResult = main.ONOSbench.onosStart( ctrl.ipAddress )
+            time.sleep(5)
             stepResult = main.Tempest.tempestTest("networkTest")
             if startResult != main.TRUE or stepResult != main.TRUE:
                 caseResult = False;
 
         utilities.assert_equals( expect=True, actual=caseResult,
-                                 onpass="Successfully ONOS Failure test",
-                                 onfail="Failed ONOS Failure test" )
-
-
-
-    def CASE4( self, main):
-        """
-            SONA Application Failure Test
-        """
-        main.case( "SONA App Failure test" )
-
-        main.step( "Tempest configure" )
-        main.Tempest.tempestConfInit()
-
-        caseResult = True;
-        main.step( "SONA App Down test" )
-        for ctrl in main.Cluster.runningNodes:
-            downResult = ctrl.CLI.app( "org.onosproject.openstacknetworking", "deactivate" )
-            stepResult = main.Tempest.tempestTest("networkTest")
-            if downResult != main.TRUE or stepResult != main.TRUE:
-                caseResult = False;
-            upResult = ctrl.CLI.app( "org.onosproject.openstacknetworking", "activate" )
-            stepResult = main.Tempest.tempestTest("networkTest")
-            if upResult != main.TRUE or stepResult != main.TRUE:
-                caseResult = False;
-
-        utilities.assert_equals( expect=True, actual=caseResult,
-                                 onpass="Successfully SONA App Failure test",
-                                 onfail="Failed SONA App Failure test" )
-
+                                 onpass="Successfully ONOS Recovery test",
+                                 onfail="Failed ONOS Recoverysssss test" )
